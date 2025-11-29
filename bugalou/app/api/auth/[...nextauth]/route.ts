@@ -72,5 +72,5 @@ const authOptions: NextAuthOptions = {
 
 const handler = NextAuth(authOptions);
 
-// ✅ Alleen GET en POST exporteren – geen authOptions meer
+// 🔴 LET OP: alleen GET en POST exporteren, NIET `authOptions`!
 export { handler as GET, handler as POST };
