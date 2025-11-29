@@ -1,4 +1,4 @@
-// app/api/auth/[...nextauth]/route.ts
+// api/auth/[...nextauth]/route.ts
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaClient } from "@prisma/client";
@@ -66,7 +66,8 @@ const authOptions: NextAuthOptions = {
     },
   },
   pages: {
-    signIn: "/login",
+    signIn: "/login",      // De loginpagina
+    error: "/auth/error",  // De foutpagina die we hebben toegevoegd
   },
 };
 
