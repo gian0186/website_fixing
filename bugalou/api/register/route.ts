@@ -1,4 +1,4 @@
-// app/api/register/route.ts
+//api/register/route.ts
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { prisma } from "@/lib/prisma";
@@ -59,7 +59,7 @@ export async function POST(req: Request) {
       data: {
         email,
         name,
-        password: passwordHash,
+        password: passwordHash, // Correctie naar passwordHash
         role: UserRole.OWNER, // expliciet
         companyId: company.id,
       },
