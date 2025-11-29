@@ -29,7 +29,7 @@ export function isPlatformAdmin(user: { email?: string | null }) {
  * Vereist dat iemand is ingelogd.
  */
 export async function requireAuth(): Promise<Session> {
-  // ✅ Geen authOptions meer nodig hier
+  // 👉 Geen authOptions nodig in App Router
   const session = await getServerSession();
 
   if (!session) {
@@ -41,7 +41,6 @@ export async function requireAuth(): Promise<Session> {
 
 /**
  * Vereist dat user OWNER is binnen zijn eigen company.
- * (Wordt gebruikt voor bedrijfsspecifieke toegang.)
  */
 export async function requireOwner(): Promise<Session> {
   const session = await requireAuth();
@@ -55,8 +54,7 @@ export async function requireOwner(): Promise<Session> {
 }
 
 /**
- * Vereist dat user PLATFORM ADMIN is (beheerders van Bugalou platform).
- * Bijvoorbeeld voor globale Nieuws & Updates.
+ * Vereist dat user PLATFORM ADMIN is (sitebeheerder van Bugalou).
  */
 export async function requirePlatformAdmin(): Promise<Session> {
   const session = await requireAuth();
