@@ -1,11 +1,12 @@
+// app/api/company/api-key/route.ts
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/prisma";
 import crypto from "crypto";
 
 export async function POST(_req: Request) {
-  const session = await getServerSession(authOptions);
+  // ✅ Geen authOptions meer nodig
+  const session = await getServerSession();
 
   if (!session || !session.user) {
     return new NextResponse("Unauthorized", { status: 401 });

@@ -1,13 +1,13 @@
 // app/api/flows/[id]/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
 async function getCompanyIdFromSession() {
-  const session = await getServerSession(authOptions);
+  // ✅ Geen authOptions meer – gewoon getServerSession()
+  const session = await getServerSession();
 
   if (!session || !session.user) {
     throw new Error("Unauthorized");
@@ -89,7 +89,7 @@ export async function PATCH(
   }
 }
 
-// 🗑 Flow verwijderen (ongewijzigd)
+// 🗑 Flow verwijderen
 export async function DELETE(
   _req: NextRequest,
   { params }: { params: { id: string } }

@@ -1,13 +1,13 @@
 // app/api/flows/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
 export async function POST(req: NextRequest) {
-  const session = await getServerSession(authOptions);
+  // ✅ Geen authOptions meer nodig
+  const session = await getServerSession();
 
   if (!session || !session.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
       data: {
         companyId,
         name,
-        description,                // ← ⭐ Opslaan van beschrijving toegevoegd
+        description,
         triggerEventType: triggerType,
         messageTemplate: template,
         isActive: isActive ?? true,
