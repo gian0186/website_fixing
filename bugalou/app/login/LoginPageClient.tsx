@@ -1,21 +1,34 @@
-// app/login/LoginPageClient.tsx
-"use client";
+"use client"; // Zorg ervoor dat dit client-side is
 
-import { FormEvent, useState } from "react";
 import { signIn } from "next-auth/react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginPageClient() {
-  const searchParams = useSearchParams();
   const router = useRouter();
-  const callbackUrl = searchParams.get("callbackUrl") ?? "/app";
 
+  // Verkrijg de search parameters uit de URL
+  const [callbackUrl, setCallbackUrl] = useState<string>("/app");  // Standaardwaarde
+
+  useEffect(() => {
+    // Controleer of we in de browser (client-side) zijn
+    if (typeof window !== "undefined") {
+      const searchParams = new URLSearchParams(window.location.search);
+      const urlCallback = searchParams.get("callbackUrl");
+      if (urlCallback) {
+        setCallbackUrl(urlCallback);  // Update de callbackUrl als deze aanwezig is
+      }
+    }
+  }, []);  // Lege array zorgt ervoor dat dit alleen één keer wordt uitgevoerd
+
+  // State voor formulier input
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  async function handleSubmit(e: FormEvent) {
+  // Functie voor login
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
@@ -30,75 +43,56 @@ export default function LoginPageClient() {
     setLoading(false);
 
     if (res?.error) {
-      setError("Onjuiste inloggegevens");
+      setError("Ongeldige inloggegevens");
       return;
     }
 
-    // Succes → redirect
+    // Succes -> redirect
     router.push(callbackUrl);
-  }
+  };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-950">
-      <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-xl">
-        <h1 className="text-2xl font-semibold text-white mb-1">Inloggen</h1>
-        <p className="text-sm text-slate-400 mb-6">
-          Log in om je Bugalou dashboard te openen.
-        </p>
+    <div className="flex justify-center items-center min-h-screen bg-gray-900 text-white">
+      <div className="max-w-sm w-full p-6 bg-gray-800 rounded-lg shadow-lg">
+        <h1 className="text-2xl font-bold mb-4 text-center">Inloggen</h1>
 
-        {error && (
-          <div className="mb-4 rounded-md bg-red-900/40 border border-red-700 px-3 py-2 text-sm text-red-100">
-            {error}
-          </div>
-        )}
+        {error && <div className="text-red-500 mb-4">{error}</div>}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-slate-200 mb-1">
-              E-mail
-            </label>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label htmlFor="email" className="block text-sm mb-2">E-mail</label>
             <input
               type="email"
-              className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+              id="email"
+              name="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              className="w-full p-3 rounded-md bg-gray-700 text-white"
               required
-              autoComplete="email"
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-slate-200 mb-1">
-              Wachtwoord
-            </label>
+          <div className="mb-4">
+            <label htmlFor="password" className="block text-sm mb-2">Wachtwoord</label>
             <input
               type="password"
-              className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+              id="password"
+              name="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              className="w-full p-3 rounded-md bg-gray-700 text-white"
               required
-              autoComplete="current-password"
             />
           </div>
 
           <button
             type="submit"
+            className="w-full bg-blue-600 p-3 rounded-md hover:bg-blue-700"
             disabled={loading}
-            className="w-full rounded-lg bg-sky-500 hover:bg-sky-600 disabled:opacity-60 disabled:cursor-not-allowed px-4 py-2 text-sm font-medium text-white transition-colors"
           >
-            {loading ? "Bezig met inloggen..." : "Inloggen"}
+            {loading ? "Inloggen..." : "Inloggen"}
           </button>
         </form>
-
-        <p className="mt-4 text-xs text-slate-500 text-center">
-          Nog geen account?{" "}
-          <a
-            href="/register"
-            className="text-sky-400 hover:text-sky-300 underline-offset-2 hover:underline"
-          >
-            Account aanmaken
-          </a>
-        </p>
       </div>
     </div>
   );

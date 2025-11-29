@@ -1,9 +1,11 @@
 // app/auth/error/page.tsx
+"use client";
+
 export default function ErrorPage() {
   return (
-    <div>
-      <h1>Er is een fout opgetreden tijdens de inlog.</h1>
-      <p>Probeer het opnieuw of neem contact op met de support.</p>
+    <div className="error-container">
+      <h1>Er is iets mis gegaan met het inloggen.</h1>
+      <p>Probeer het opnieuw.</p>
     </div>
   );
 }

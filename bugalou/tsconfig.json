@@ -15,9 +15,13 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "react-jsx", 
+    "jsx": "preserve",
     "incremental": true,
-    "types": ["react", "react-dom", "next"],  // Voeg deze regel toe
+    "types": [
+      "react",
+      "react-dom",
+      "next"
+    ], // Voeg deze regel toe
     "plugins": [
       {
         "name": "next"
