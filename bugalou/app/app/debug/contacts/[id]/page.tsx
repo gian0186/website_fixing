@@ -1,7 +1,8 @@
-// app/debug/contacts/[id]/page.tsx
+// app/app/debug/contacts/[id]/page.tsx
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import type { Message, Event } from "@prisma/client";
 
 type Props = {
   params: { id: string };
@@ -39,7 +40,7 @@ export default async function DebugContactDetailPage({ params }: Props) {
             </p>
           </div>
           <Link
-            href="/debug/messages"
+            href="/app/debug/messages"
             className="text-sm text-blue-600 hover:underline"
           >
             ← Terug naar messages
@@ -59,21 +60,26 @@ export default async function DebugContactDetailPage({ params }: Props) {
                 </p>
               )}
 
-              {contact.messages.map((m) => (
+              {contact.messages.map((m: Message) => (
                 <div
                   key={m.id}
                   className={`max-w-[80%] rounded-lg px-3 py-2 text-sm shadow-sm ${
-                    m.direction === "outbound"
+                    m.direction === "OUTBOUND"
                       ? "ml-auto bg-emerald-50"
                       : "mr-auto bg-slate-50"
                   }`}
                 >
                   <div className="mb-1 flex items-center justify-between text-[11px] uppercase tracking-wide text-slate-400">
                     <span>{m.direction}</span>
-                    <span>{m.createdAt.toLocaleString()}</span>
+                    <span>
+                      {m.createdAt.toLocaleString("nl-NL", {
+                        dateStyle: "short",
+                        timeStyle: "short",
+                      })}
+                    </span>
                   </div>
                   <pre className="whitespace-pre-wrap break-words text-slate-800">
-                    {m.body}
+                    {m.content}
                   </pre>
                 </div>
               ))}
@@ -102,7 +108,10 @@ export default async function DebugContactDetailPage({ params }: Props) {
                 <div className="flex justify-between">
                   <dt className="text-slate-500">Aangemaakt</dt>
                   <dd className="font-medium">
-                    {contact.createdAt.toLocaleString()}
+                    {contact.createdAt.toLocaleString("nl-NL", {
+                      dateStyle: "short",
+                      timeStyle: "short",
+                    })}
                   </dd>
                 </div>
               </dl>
@@ -113,7 +122,7 @@ export default async function DebugContactDetailPage({ params }: Props) {
                 Events ({contact.events.length})
               </h2>
               <ul className="space-y-2 text-sm">
-                {contact.events.map((e) => (
+                {contact.events.map((e: Event) => (
                   <li
                     key={e.id}
                     className="rounded border border-slate-100 bg-slate-50 px-3 py-2"
@@ -123,12 +132,15 @@ export default async function DebugContactDetailPage({ params }: Props) {
                         {e.type}
                       </span>
                       <span className="text-[11px] text-slate-500">
-                        {e.createdAt.toLocaleString()}
+                        {e.createdAt.toLocaleString("nl-NL", {
+                          dateStyle: "short",
+                          timeStyle: "short",
+                        })}
                       </span>
                     </div>
-                    {e.payload && (
+                    {e.data && (
                       <pre className="mt-1 max-h-32 overflow-auto whitespace-pre-wrap break-words text-[11px] text-slate-600">
-                        {JSON.stringify(e.payload, null, 2)}
+                        {JSON.stringify(e.data, null, 2)}
                       </pre>
                     )}
                   </li>
