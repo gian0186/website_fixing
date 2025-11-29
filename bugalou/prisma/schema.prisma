@@ -1,0 +1,223 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum MessageDirection {
+  INBOUND
+  OUTBOUND
+}
+
+enum MessageStatus {
+  QUEUED
+  SENT
+  DELIVERED
+  READ
+  FAILED
+}
+
+enum UserRole {
+  OWNER
+  ADMIN
+  AGENT
+}
+
+// 🔹 Status van WhatsApp-koppeling per company
+enum WhatsAppStatus {
+  PENDING
+  ACTIVE
+  ERROR
+}
+
+model User {
+  id    String  @id @default(cuid())
+  email String  @unique
+  name  String?
+
+  // 🔐 Auth fields
+  password String
+  role     UserRole @default(AGENT)  // ⬅️ standaard nieuwe users worden AGENT
+
+  // 🔗 Elke user hoort bij één company
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id])
+
+  // 🔹 Nieuws dat door deze user is aangemaakt
+  news News[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([companyId])
+}
+
+model Company {
+  id     String @id @default(cuid())
+  name   String
+  apiKey String @unique
+
+  // Oud veld, mag je later eventueel vervangen door settings.phoneNumber
+  whatsappNumber String?
+
+  users    User[]
+  contacts Contact[]
+  events   Event[]
+  flows    Flow[]
+  messages Message[]
+  forms    Form[]
+  news     News[] // 👈 nieuwsberichten per company
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // 🚀 Branding
+  logoUrl      String? // URL naar logo (bv. https://...)
+  primaryColor String? @default("#0f172a") // donkerblauw
+  accentColor  String? @default("#eab308") // geel
+  introText    String? // korte introductietekst op hosted form
+
+  // 🚀 Slug voor mooie URL
+  slug String? @unique
+
+  // 🔹 Eén set WhatsApp settings per company (optioneel)
+  whatsappSettings CompanyWhatsAppSettings?
+}
+
+model Contact {
+  id        String  @id @default(cuid())
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id])
+
+  name  String?
+  phone String
+  email String?
+
+  events   Event[]
+  messages Message[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([companyId, phone], name: "companyId_phone")
+  @@index([companyId, phone])
+  @@index([companyId, email])
+}
+
+model Event {
+  id        String  @id @default(cuid())
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id])
+
+  contactId String?
+  contact   Contact? @relation(fields: [contactId], references: [id])
+
+  type String
+  data Json
+
+  messages Message[]
+
+  createdAt DateTime @default(now())
+
+  @@index([companyId, type])
+  @@index([companyId, createdAt])
+}
+
+model Flow {
+  id        String  @id @default(cuid())
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id])
+
+  name             String
+  description      String?
+  triggerEventType String
+  messageTemplate  String
+  isActive         Boolean @default(true)
+
+  definition Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([companyId, triggerEventType])
+}
+
+model Message {
+  id        String  @id @default(cuid())
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id])
+
+  contactId String?
+  contact   Contact? @relation(fields: [contactId], references: [id])
+
+  eventId String?
+  event   Event?  @relation(fields: [eventId], references: [id])
+
+  direction MessageDirection
+  status    MessageStatus    @default(QUEUED)
+
+  content           String
+  whatsappMessageId String?
+  rawPayload        Json?
+
+  createdAt DateTime @default(now())
+
+  @@index([companyId, contactId])
+  @@index([companyId, createdAt])
+}
+
+model Form {
+  id        String  @id @default(cuid())
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id])
+
+  slug        String  @unique
+  title       String
+  description String?
+
+  fields         Json?
+  successMessage String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// 🔹 WhatsApp instellingen per company
+model CompanyWhatsAppSettings {
+  id String @id @default(cuid())
+
+  company   Company @relation(fields: [companyId], references: [id])
+  companyId String  @unique
+
+  // Wat klanten zelf instellen:
+  phoneNumber   String? // +316...
+  phoneNumberId String? // WhatsApp phone_number_id
+  businessId    String? // WABA_ID
+  accessToken   String? // Meta access token (liefst encrypted in code)
+  verifyToken   String? // Webhook verify token (optioneel per company)
+
+  status     WhatsAppStatus @default(PENDING)
+  webhookUrl String? // optioneel, als je ooit per company een andere URL wilt
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// 🔹 Nieuwsberichten per company (voor dashboard-updates)
+model News {
+  id String @id @default(cuid())
+
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id])
+
+  title String
+  body  String
+
+  createdAt DateTime @default(now())
+
+  createdById String?
+  createdBy   User?   @relation(fields: [createdById], references: [id])
+}
