@@ -1,13 +1,13 @@
 // app/api/contacts/[id]/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
 async function getCompanyIdFromSession() {
-  const session = await getServerSession(authOptions);
+  // ✅ Geen authOptions meer nodig
+  const session = await getServerSession();
 
   if (!session || !session.user) {
     throw new Error("Unauthorized");
@@ -135,7 +135,8 @@ export async function DELETE(
     const message =
       error?.message === "Unauthorized"
         ? "Unauthorized"
-        : error?.message || "Er ging iets mis bij het verwijderen van het contact.";
+        : error?.message ||
+          "Er ging iets mis bij het verwijderen van het contact.";
     const status = message === "Unauthorized" ? 401 : 500;
 
     return NextResponse.json({ error: message }, { status });
