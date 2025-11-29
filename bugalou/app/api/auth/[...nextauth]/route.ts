@@ -1,5 +1,5 @@
 // app/api/auth/[...nextauth]/route.ts
-import NextAuth, { type NextAuthOptions } from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
@@ -70,7 +70,7 @@ const authOptions: NextAuthOptions = {
   },
 };
 
+// ❗ Belangrijk: alleen de handler exporteren, NIET authOptions
 const handler = NextAuth(authOptions);
 
-// 🔴 LET OP: alleen GET en POST exporteren, NIET `authOptions`!
 export { handler as GET, handler as POST };
