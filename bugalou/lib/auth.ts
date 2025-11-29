@@ -1,7 +1,6 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import type { Session } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 // ------------------------------
 //  Helpers
@@ -30,7 +29,8 @@ export function isPlatformAdmin(user: { email?: string | null }) {
  * Vereist dat iemand is ingelogd.
  */
 export async function requireAuth(): Promise<Session> {
-  const session = await getServerSession(authOptions);
+  // ✅ Geen authOptions meer nodig hier
+  const session = await getServerSession();
 
   if (!session) {
     redirect("/login");
@@ -56,7 +56,7 @@ export async function requireOwner(): Promise<Session> {
 
 /**
  * Vereist dat user PLATFORM ADMIN is (beheerders van Bugalou platform).
- * Bijvoorbeeld voor Nieuws & Updates.
+ * Bijvoorbeeld voor globale Nieuws & Updates.
  */
 export async function requirePlatformAdmin(): Promise<Session> {
   const session = await requireAuth();

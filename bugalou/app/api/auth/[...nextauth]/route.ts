@@ -23,7 +23,6 @@ const authOptions: NextAuthOptions = {
 
         if (!dbUser) return null;
 
-        // 👉 Forceer type zodat TS niet klaagt over password/role
         const user = dbUser as any;
 
         if (!user.password) return null;
@@ -32,6 +31,7 @@ const authOptions: NextAuthOptions = {
           credentials.password,
           user.password
         );
+
         if (!isValid) return null;
 
         return {
@@ -66,10 +66,10 @@ const authOptions: NextAuthOptions = {
     },
   },
   pages: {
-    signIn: "/login", // straks jouw eigen loginpagina
+    signIn: "/login",
   },
 };
 
+// 🔥 Alleen deze 2 exports zijn toegestaan!
 const handler = NextAuth(authOptions);
-
-export { handler as GET, handler as POST, authOptions };
+export { handler as GET, handler as POST };
