@@ -1,5 +1,4 @@
-// app/app/layout.tsx
-import "@/app/globals.css";
+//app/layout.tsx
 import Link from "next/link";
 import { requireAuth } from "@/lib/auth";
 import type { ReactNode } from "react";
@@ -70,7 +69,10 @@ export default async function AppLayout({
               <SidebarLink href="/app/debug/run-flow" icon={PlayCircle}>
                 Run Flow
               </SidebarLink>
-              <SidebarLink href="/app/debug/send-whatsapp" icon={MessageCircleMore}>
+              <SidebarLink
+                href="/app/debug/send-whatsapp"
+                icon={MessageCircleMore}
+              >
                 Fake WhatsApp
               </SidebarLink>
               <SidebarLink href="/app/debug/events" icon={ListTree}>
