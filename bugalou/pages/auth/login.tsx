@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const router = useRouter();
-  
+
   // State voor formulier input
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -64,4 +64,11 @@ export default function LoginPage() {
             />
           </div>
 
-          <button type="submit" className="w-full bg-blue-600 p-
+          <button type="submit" className="w-full bg-blue-600 p-3 rounded-md hover:bg-blue-700">
+            Inloggen
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
