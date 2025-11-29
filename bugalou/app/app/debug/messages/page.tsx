@@ -1,11 +1,17 @@
-// app/debug/messages/page.tsx
+// app/app/debug/messages/page.tsx
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
+import type { Message, Company, Contact } from "@prisma/client";
 
 export const dynamic = "force-dynamic";
 
+type MessageWithRelations = Message & {
+  company: Pick<Company, "id" | "name">;
+  contact: Pick<Contact, "id" | "name" | "email" | "phone"> | null;
+};
+
 export default async function DebugMessagesPage() {
-  const messages = await prisma.message.findMany({
+  const messages: MessageWithRelations[] = await prisma.message.findMany({
     orderBy: { createdAt: "desc" },
     take: 50,
     include: {
@@ -20,7 +26,7 @@ export default async function DebugMessagesPage() {
         <header className="flex items-center justify-between">
           <h1 className="text-2xl font-semibold">Debug · Messages</h1>
           <Link
-            href="/debug/events"
+            href="/app/debug/events"
             className="text-sm text-blue-600 hover:underline"
           >
             Ga naar events →
@@ -34,26 +40,25 @@ export default async function DebugMessagesPage() {
                 <th className="px-3 py-2">Company</th>
                 <th className="px-3 py-2">Contact</th>
                 <th className="px-3 py-2">Direction</th>
-                {/* Als je een status-veld hebt, kun je deze kolom gebruiken */}
+                {/* Als je een status-veld wilt tonen kun je deze weer aanzetten */}
                 {/* <th className="px-3 py-2">Status</th> */}
                 <th className="px-3 py-2">Content</th>
                 <th className="px-3 py-2">Created</th>
               </tr>
             </thead>
             <tbody>
-              {messages.map((m) => (
+              {messages.map((m: MessageWithRelations) => (
                 <tr key={m.id} className="border-b last:border-0">
                   <td className="px-3 py-2 align-top">
-                    <div className="font-medium">
-                      {m.company?.name ?? "—"}
-                    </div>
+                    <div className="font-medium">{m.company?.name ?? "—"}</div>
                     <div className="text-xs text-slate-500">{m.companyId}</div>
                   </td>
+
                   <td className="px-3 py-2 align-top">
                     {m.contact ? (
                       <div className="space-y-0.5">
                         <Link
-                          href={`/debug/contacts/${m.contact.id}`}
+                          href={`/app/debug/contacts/${m.contact.id}`}
                           className="text-sm font-medium text-blue-600 hover:underline"
                         >
                           {m.contact.name || "Onbekend"}
@@ -63,13 +68,16 @@ export default async function DebugMessagesPage() {
                         </div>
                       </div>
                     ) : (
-                      <span className="text-xs text-slate-400">Geen contact</span>
+                      <span className="text-xs text-slate-400">
+                        Geen contact
+                      </span>
                     )}
                   </td>
+
                   <td className="px-3 py-2 align-top">
                     <span
                       className={`rounded-full px-2 py-0.5 text-xs font-medium ${
-                        m.direction === "outbound"
+                        m.direction === "OUTBOUND"
                           ? "bg-emerald-100 text-emerald-700"
                           : "bg-sky-100 text-sky-700"
                       }`}
@@ -77,16 +85,22 @@ export default async function DebugMessagesPage() {
                       {m.direction}
                     </span>
                   </td>
+
                   {/* <td className="px-3 py-2 align-top text-xs text-slate-600">
-                    {(m as any).status ?? "—"}
+                    {m.status ?? "—"}
                   </td> */}
+
                   <td className="px-3 py-2 align-top max-w-xs text-xs text-slate-800">
                     <pre className="whitespace-pre-wrap break-words">
-                      {m.body}
+                      {m.content}
                     </pre>
                   </td>
+
                   <td className="px-3 py-2 align-top text-xs text-slate-500">
-                    {m.createdAt.toISOString()}
+                    {m.createdAt.toLocaleString("nl-NL", {
+                      dateStyle: "short",
+                      timeStyle: "short",
+                    })}
                   </td>
                 </tr>
               ))}
