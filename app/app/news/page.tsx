@@ -2,7 +2,21 @@
 import { requireAuth, isPlatformAdmin } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
-import type { News, User } from "@prisma/client";
+
+type News = {
+  id: string;
+  companyId: string;
+  title: string;
+  body: string;
+  createdAt: Date;
+  createdById: string | null;
+};
+
+type User = {
+  id: string;
+  email: string;
+  name: string | null;
+};
 
 type NewsWithAuthor = News & { createdBy: User | null };
 

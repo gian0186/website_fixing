@@ -1,8 +1,22 @@
 // app/app/page.tsx
 import { requireAuth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import type { News, User } from "@prisma/client";
 import Link from "next/link";
+
+type News = {
+  id: string;
+  companyId: string;
+  title: string;
+  body: string;
+  createdAt: Date;
+  createdById: string | null;
+};
+
+type User = {
+  id: string;
+  email: string;
+  name: string | null;
+};
 
 type NewsWithAuthor = News & { createdBy: User | null };
 
