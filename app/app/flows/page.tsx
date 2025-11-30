@@ -6,6 +6,15 @@ import { FlowDeleteButton } from "@/components/FlowDeleteButton";
 
 const prisma = new PrismaClient();
 
+type FlowWithFields = {
+  id: string;
+  createdAt: Date;
+  name?: string;
+  description?: string;
+  isActive?: boolean;
+  triggerEventType?: string;
+};
+
 export default async function FlowsPage() {
   const session = await requireAuth();
   const companyId = (session.user as any).companyId;
@@ -46,7 +55,7 @@ export default async function FlowsPage() {
         </div>
       ) : (
         <div className="rounded-xl border border-slate-800 bg-slate-900 px-4 py-4 space-y-3">
-          {flows.map((flow) => {
+          {flows.map((flow: FlowWithFields) => {
             const f = flow as any;
             const name = f.name ?? "Naamloze flow";
             const description =

@@ -4,6 +4,18 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+type EventWithContact = {
+  id: string;
+  type: string;
+  createdAt: Date;
+  contact: {
+    id: string;
+    name: string | null;
+    email: string | null;
+    phone: string;
+  } | null;
+};
+
 export default async function EventsPage() {
   const session = await requireAuth();
   const companyId = (session.user as any).companyId;
@@ -43,7 +55,7 @@ export default async function EventsPage() {
         </div>
       ) : (
         <div className="rounded-xl border border-slate-800 bg-slate-900 px-4 py-4 space-y-4">
-          {events.map((event) => {
+          {events.map((event: EventWithContact) => {
             const created = new Date(event.createdAt).toLocaleString("nl-NL", {
               dateStyle: "short",
               timeStyle: "short",
