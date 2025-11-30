@@ -6,6 +6,18 @@ import { ContactDeleteButton } from "@/components/ContactDeleteButton";
 
 const prisma = new PrismaClient();
 
+type ContactWithEvents = {
+  id: string;
+  name: string | null;
+  email: string | null;
+  phone: string;
+  events: Array<{
+    id: string;
+    type: string;
+    createdAt: Date;
+  }>;
+};
+
 export default async function ContactsPage() {
   const session = await requireAuth();
   const companyId = (session.user as any).companyId as string;
@@ -75,7 +87,7 @@ export default async function ContactsPage() {
               </tr>
             </thead>
             <tbody>
-              {contacts.map((contact) => {
+              {contacts.map((contact: ContactWithEvents) => {
                 const lastEvent = contact.events[0];
                 const lastEventDate = lastEvent
                   ? new Date(lastEvent.createdAt).toLocaleString("nl-NL", {
