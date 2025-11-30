@@ -1,10 +1,22 @@
 // app/app/contacts/[id]/page.tsx
 import { requireAuth } from "@/lib/auth";
-import { PrismaClient, Event, Message } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import Link from "next/link";
 import { ContactDeleteButton } from "@/components/ContactDeleteButton";
 
 const prisma = new PrismaClient();
+
+type EventWithRelations = {
+  id: string;
+  type: string;
+  createdAt: Date;
+};
+
+type MessageWithRelations = {
+  id: string;
+  content: string;
+  createdAt: Date;
+};
 
 type ContactDetailPageProps = {
   params: { id: string };
@@ -90,7 +102,7 @@ export default async function ContactDetailPage({ params }: ContactDetailPagePro
           <p className="text-xs text-slate-500">Nog geen events gekoppeld.</p>
         ) : (
           <ul className="space-y-1 text-xs text-slate-300">
-            {contact.events.map((ev: Event) => (
+            {contact.events.map((ev: EventWithRelations) => (
               <li key={ev.id} className="flex justify-between">
                 <span>{ev.type}</span>
                 <span className="text-slate-500">
@@ -116,7 +128,7 @@ export default async function ContactDetailPage({ params }: ContactDetailPagePro
           </p>
         ) : (
           <ul className="space-y-1 text-xs text-slate-300">
-            {contact.messages.map((m: Message) => (
+            {contact.messages.map((m: MessageWithRelations) => (
               <li key={m.id} className="flex justify-between">
                 <span className="line-clamp-1">{m.content}</span>
                 <span className="text-slate-500">
