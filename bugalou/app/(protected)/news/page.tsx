@@ -67,7 +67,7 @@ export default async function NewsIndexPage() {
         </p>
       ) : (
         <div className="space-y-3">
-          {newsItems.map((item) => (
+          {newsItems.map((item: NewsWithAuthor) => (
             <article
               key={item.id}
               className="rounded-lg border border-slate-800 bg-slate-900 px-4 py-3"

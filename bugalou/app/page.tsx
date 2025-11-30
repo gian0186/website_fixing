@@ -118,7 +118,7 @@ export default async function AppDashboardPage() {
           </p>
         ) : (
           <div className="space-y-3">
-            {latestNews.map((item) => (
+            {latestNews.map((item: NewsWithAuthor) => (
               <div
                 key={item.id}
                 className="rounded-lg border border-slate-800 bg-slate-950/60 px-3 py-2"

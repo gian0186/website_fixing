@@ -9,6 +9,12 @@ type EventDetailPageProps = {
   params: { id: string };
 };
 
+type MessageWithFields = {
+  id: string;
+  content: string;
+  createdAt: Date;
+};
+
 export default async function EventDetailPage({ params }: EventDetailPageProps) {
   const session = await requireAuth();
   const companyId = (session.user as any).companyId;
@@ -119,7 +125,7 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
           </p>
         ) : (
           <div className="rounded-xl border border-slate-800 bg-slate-900 px-4 py-4 space-y-3">
-            {messages.map((message) => {
+            {messages.map((message: MessageWithFields) => {
               const m = message as any;
               const created = new Date(message.createdAt).toLocaleString(
                 "nl-NL",
