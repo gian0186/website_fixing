@@ -2,7 +2,6 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
-import { UserRole } from "@prisma/client";
 
 function slugify(name: string) {
   return name
@@ -60,7 +59,7 @@ export async function POST(req: Request) {
         email,
         name,
         password: passwordHash,
-        role: UserRole.OWNER, // expliciet
+        role: "OWNER", // expliciet
         companyId: company.id,
       },
     });
