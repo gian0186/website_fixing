@@ -4,6 +4,24 @@ import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
+type EventWithRelations = {
+  id: string;
+  companyId: string;
+  company: {
+    id: string;
+    name: string;
+  } | null;
+  contact: {
+    id: string;
+    name: string | null;
+    email: string | null;
+    phone: string;
+  } | null;
+  type: string;
+  payload: any;
+  createdAt: Date;
+};
+
 export default async function DebugEventsPage() {
   const events = await prisma.event.findMany({
     orderBy: { createdAt: "desc" },
@@ -39,7 +57,7 @@ export default async function DebugEventsPage() {
               </tr>
             </thead>
             <tbody>
-              {events.map((e) => (
+              {events.map((e: EventWithRelations) => (
                 <tr key={e.id} className="border-b last:border-0">
                   <td className="px-3 py-2 align-top">
                     <div className="font-medium">
