@@ -10,6 +10,18 @@ type ContactDetailPageProps = {
   params: { id: string };
 };
 
+type EventWithRelations = {
+  id: string;
+  type: string;
+  createdAt: Date;
+};
+
+type MessageWithRelations = {
+  id: string;
+  content: string;
+  createdAt: Date;
+};
+
 export default async function ContactDetailPage({ params }: ContactDetailPageProps) {
   const session = await requireAuth();
   const companyId = (session.user as any).companyId as string;
@@ -90,7 +102,7 @@ export default async function ContactDetailPage({ params }: ContactDetailPagePro
           <p className="text-xs text-slate-500">Nog geen events gekoppeld.</p>
         ) : (
           <ul className="space-y-1 text-xs text-slate-300">
-            {contact.events.map((ev) => (
+            {contact.events.map((ev: EventWithRelations) => (
               <li key={ev.id} className="flex justify-between">
                 <span>{ev.type}</span>
                 <span className="text-slate-500">
@@ -116,7 +128,7 @@ export default async function ContactDetailPage({ params }: ContactDetailPagePro
           </p>
         ) : (
           <ul className="space-y-1 text-xs text-slate-300">
-            {contact.messages.map((m) => (
+            {contact.messages.map((m: MessageWithRelations) => (
               <li key={m.id} className="flex justify-between">
                 <span className="line-clamp-1">{m.content}</span>
                 <span className="text-slate-500">
