@@ -4,6 +4,20 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+type MessageWithContact = {
+  id: string;
+  createdAt: Date;
+  direction?: string;
+  status?: string;
+  content?: string;
+  contact: {
+    id: string;
+    name: string | null;
+    email: string | null;
+    phone: string;
+  } | null;
+};
+
 export default async function MessagesPage() {
   const session = await requireAuth();
   const companyId = (session.user as any).companyId;
@@ -45,7 +59,7 @@ export default async function MessagesPage() {
         </div>
       ) : (
         <div className="rounded-xl border border-slate-800 bg-slate-900 px-4 py-4 space-y-3">
-          {messages.map((message) => {
+          {messages.map((message: MessageWithContact) => {
             const m = message as any; // flexibel t.o.v. veldnamen
             const created = new Date(message.createdAt).toLocaleString("nl-NL", {
               dateStyle: "short",
