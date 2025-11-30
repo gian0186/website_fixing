@@ -7,6 +7,20 @@ type Props = {
   params: { id: string };
 };
 
+type MessageWithRelations = {
+  id: string;
+  direction: string;
+  createdAt: Date;
+  body: string;
+};
+
+type EventWithRelations = {
+  id: string;
+  type: string;
+  createdAt: Date;
+  payload?: any;
+};
+
 export const dynamic = "force-dynamic";
 
 export default async function DebugContactDetailPage({ params }: Props) {
@@ -59,7 +73,7 @@ export default async function DebugContactDetailPage({ params }: Props) {
                 </p>
               )}
 
-              {contact.messages.map((m) => (
+              {contact.messages.map((m: MessageWithRelations) => (
                 <div
                   key={m.id}
                   className={`max-w-[80%] rounded-lg px-3 py-2 text-sm shadow-sm ${
@@ -113,7 +127,7 @@ export default async function DebugContactDetailPage({ params }: Props) {
                 Events ({contact.events.length})
               </h2>
               <ul className="space-y-2 text-sm">
-                {contact.events.map((e) => (
+                {contact.events.map((e: EventWithRelations) => (
                   <li
                     key={e.id}
                     className="rounded border border-slate-100 bg-slate-50 px-3 py-2"
