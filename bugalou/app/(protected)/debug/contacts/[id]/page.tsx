@@ -2,7 +2,20 @@
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import type { Message, Event } from "@prisma/client";
+
+type Message = {
+  id: string;
+  direction: string;
+  content: string;
+  createdAt: Date;
+};
+
+type Event = {
+  id: string;
+  type: string;
+  data: any;
+  createdAt: Date;
+};
 
 type Props = {
   params: { id: string };

@@ -1,9 +1,28 @@
 // app/app/debug/messages/page.tsx
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
-import type { Message, Company, Contact } from "@prisma/client";
 
 export const dynamic = "force-dynamic";
+
+type Message = {
+  id: string;
+  companyId: string;
+  direction: string;
+  content: string;
+  createdAt: Date;
+};
+
+type Company = {
+  id: string;
+  name: string;
+};
+
+type Contact = {
+  id: string;
+  name: string | null;
+  email: string | null;
+  phone: string | null;
+};
 
 type MessageWithRelations = Message & {
   company: Pick<Company, "id" | "name">;

@@ -1,7 +1,26 @@
 // app/app/debug/events/page.tsx
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
-import type { Event, Company, Contact } from "@prisma/client";
+
+type Event = {
+  id: string;
+  companyId: string;
+  type: string;
+  data: any;
+  createdAt: Date;
+};
+
+type Company = {
+  id: string;
+  name: string;
+};
+
+type Contact = {
+  id: string;
+  name: string | null;
+  email: string | null;
+  phone: string | null;
+};
 
 type EventWithRelations = Event & {
   company: Company;
