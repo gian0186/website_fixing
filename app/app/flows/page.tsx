@@ -9,10 +9,10 @@ const prisma = new PrismaClient();
 type FlowWithFields = {
   id: string;
   createdAt: Date;
-  name?: string;
-  description?: string;
-  isActive?: boolean;
-  triggerEventType?: string;
+  name: string | null;
+  description: string | null;
+  isActive: boolean;
+  triggerEventType: string;
 };
 
 export default async function FlowsPage() {
