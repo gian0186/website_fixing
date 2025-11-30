@@ -4,6 +4,24 @@ import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
+type MessageWithRelations = {
+  id: string;
+  companyId: string;
+  company: {
+    id: string;
+    name: string;
+  } | null;
+  contact: {
+    id: string;
+    name: string | null;
+    email: string | null;
+    phone: string;
+  } | null;
+  direction: string;
+  body: string;
+  createdAt: Date;
+};
+
 export default async function DebugMessagesPage() {
   const messages = await prisma.message.findMany({
     orderBy: { createdAt: "desc" },
@@ -41,7 +59,7 @@ export default async function DebugMessagesPage() {
               </tr>
             </thead>
             <tbody>
-              {messages.map((m) => (
+              {messages.map((m: MessageWithRelations) => (
                 <tr key={m.id} className="border-b last:border-0">
                   <td className="px-3 py-2 align-top">
                     <div className="font-medium">
