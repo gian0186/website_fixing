@@ -1,6 +1,6 @@
 // app/app/contacts/[id]/page.tsx
 import { requireAuth } from "@/lib/auth";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Event, Message } from "@prisma/client";
 import Link from "next/link";
 import { ContactDeleteButton } from "@/components/ContactDeleteButton";
 
@@ -90,7 +90,7 @@ export default async function ContactDetailPage({ params }: ContactDetailPagePro
           <p className="text-xs text-slate-500">Nog geen events gekoppeld.</p>
         ) : (
           <ul className="space-y-1 text-xs text-slate-300">
-            {contact.events.map((ev) => (
+            {contact.events.map((ev: Event) => (
               <li key={ev.id} className="flex justify-between">
                 <span>{ev.type}</span>
                 <span className="text-slate-500">
@@ -116,7 +116,7 @@ export default async function ContactDetailPage({ params }: ContactDetailPagePro
           </p>
         ) : (
           <ul className="space-y-1 text-xs text-slate-300">
-            {contact.messages.map((m) => (
+            {contact.messages.map((m: Message) => (
               <li key={m.id} className="flex justify-between">
                 <span className="line-clamp-1">{m.content}</span>
                 <span className="text-slate-500">
