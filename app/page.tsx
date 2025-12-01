@@ -29,7 +29,7 @@ export default function Home() {
             <a href="#solutions" className="hover:text-slate-900">
               Oplossingen
             </a>
-            <a href="#pricing" className="hover:text-slate-900">
+            <a href="/prijzen" className="hover:text-slate-900">
               Prijzen
             </a>
             <a href="#resources" className="hover:text-slate-900">
