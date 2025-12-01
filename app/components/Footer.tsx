@@ -1,12 +1,20 @@
-// app/components/Footer.tsx
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export function Footer() {
+  const pathname = usePathname();
+
+  // Geen footer in dashboard
+  if (pathname.startsWith("/bugalou/app")) return null;
+
   return (
-    <footer className="border-t border-slate-200 bg-slate-950 text-slate-200">
+    <footer className="border-t border-slate-800 bg-slate-950 text-slate-200">
       <div className="mx-auto max-w-6xl px-4 py-10 md:py-14">
-        <div className="grid gap-10 md:grid-cols-[1.5fr,repeat(4,1fr)]">
-          {/* Social + brand */}
+        {/* 👉 5 kolommen; brand-kolom neemt er 2 in */}
+        <div className="grid gap-10 md:grid-cols-5">
+          {/* Brand / intro kolom (2 kolommen breed op desktop) */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500 text-sm font-bold text-white">
@@ -26,7 +34,7 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Company */}
+          {/* COMPANY */}
           <div className="space-y-2 text-sm">
             <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
               Company
@@ -37,7 +45,7 @@ export function Footer() {
             <FooterLink href="/contact">Contact</FooterLink>
           </div>
 
-          {/* Platform */}
+          {/* PLATFORM */}
           <div className="space-y-2 text-sm">
             <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
               Platform
@@ -48,7 +56,7 @@ export function Footer() {
             <FooterLink href="/integraties">Integraties</FooterLink>
           </div>
 
-          {/* Guides */}
+          {/* WHATSAPP GUIDES */}
           <div className="space-y-2 text-sm">
             <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
               WhatsApp Guides
@@ -58,15 +66,15 @@ export function Footer() {
             </FooterLink>
             <FooterLink href="/guides/flows">Automatische flows</FooterLink>
             <FooterLink href="/guides/reviews">
-              Reviews & klanttevredenheid
+              Reviews &amp; klanttevredenheid
             </FooterLink>
             <FooterLink href="/blog">Blog</FooterLink>
           </div>
 
-          {/* Legal */}
+          {/* SECURITY & LEGAL */}
           <div className="space-y-2 text-sm">
             <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
-              Security & Legal
+              Security &amp; Legal
             </p>
             <FooterLink href="/privacy">Privacybeleid</FooterLink>
             <FooterLink href="/cookies">Cookiebeleid</FooterLink>
@@ -75,7 +83,7 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom bar */}
+        {/* Onderste balk */}
         <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-slate-800 pt-4 text-[11px] text-slate-500 md:flex-row">
           <p>© {new Date().getFullYear()} Bugalou. Alle rechten voorbehouden.</p>
           <p className="text-slate-600">

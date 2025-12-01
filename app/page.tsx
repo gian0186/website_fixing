@@ -392,23 +392,6 @@ export default function Home() {
               <p>Gemiddelde reactietijd: &lt; 1 werkuur.</p>
             </div>
           </div>
-
-          <footer className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-slate-200 pt-6 text-xs text-slate-400 md:flex-row">
-            <span>
-              © {new Date().getFullYear()} Bugalou. Alle rechten voorbehouden.
-            </span>
-            <div className="flex gap-4">
-              <a href="#" className="hover:text-slate-600">
-                Privacy
-              </a>
-              <a href="#" className="hover:text-slate-600">
-                Voorwaarden
-              </a>
-              <a href="#" className="hover:text-slate-600">
-                Cookiebeleid
-              </a>
-            </div>
-          </footer>
         </section>
       </main>
     </div>
