@@ -3,54 +3,8 @@
 export default function Home() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
-      {/* Top bar */}
-      <header className="border-b border-slate-200 bg-white/80 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
-          {/* Logo */}
-          <div className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-500 text-white font-bold">
-              B
-            </div>
-            <div className="flex flex-col leading-tight">
-              <span className="text-lg font-semibold tracking-tight">
-                Bugalou
-              </span>
-              <span className="text-xs text-slate-500">
-                WhatsApp Automation
-              </span>
-            </div>
-          </div>
-
-          {/* Nav */}
-          <nav className="hidden items-center gap-6 text-sm font-medium text-slate-600 md:flex">
-            <a href="#features" className="hover:text-slate-900">
-              Features
-            </a>
-            <a href="#solutions" className="hover:text-slate-900">
-              Oplossingen
-            </a>
-            <a href="/prijzen" className="hover:text-slate-900">
-              Prijzen
-            </a>
-            <a href="#resources" className="hover:text-slate-900">
-              Resources
-            </a>
-          </nav>
-
-          {/* CTA rechts */}
-          <div className="flex items-center gap-3">
-            <button className="text-sm font-medium text-slate-600 hover:text-slate-900">
-              Inloggen
-            </button>
-            <button className="rounded-full bg-emerald-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-600">
-              Start gratis proefperiode
-            </button>
-          </div>
-        </div>
-      </header>
-
-      {/* Hero */}
       <main>
+        {/* Hero */}
         <section className="border-b border-slate-200 bg-gradient-to-b from-white to-slate-50">
           <div className="mx-auto flex max-w-6xl flex-col gap-10 px-4 pb-16 pt-10 md:flex-row md:items-center md:gap-14 md:pb-20 md:pt-16">
             {/* Tekst */}
@@ -60,7 +14,9 @@ export default function Home() {
               </p>
               <h1 className="mb-4 text-3xl font-bold leading-tight tracking-tight text-slate-900 md:text-4xl lg:text-[2.8rem]">
                 Laat je bedrijf groeien met{" "}
-                <span className="text-emerald-600">WhatsApp automatisering</span>
+                <span className="text-emerald-600">
+                  WhatsApp automatisering
+                </span>
               </h1>
               <p className="mb-5 max-w-xl text-sm text-slate-600 md:text-base">
                 Bugalou helpt teams om marketing, service en sales via WhatsApp
@@ -194,7 +150,8 @@ export default function Home() {
                     WA
                   </div>
                   <p className="text-[11px] font-medium text-slate-700">
-                    Gemiddelde responstijd: <span className="text-emerald-600">3 min</span>
+                    Gemiddelde responstijd:{" "}
+                    <span className="text-emerald-600">3 min</span>
                   </p>
                 </div>
               </div>
@@ -274,33 +231,135 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Pricing teaser */}
-        <section
-          id="pricing"
-          className="border-y border-slate-200 bg-slate-900 py-14 md:py-16"
-        >
-          <div className="mx-auto max-w-6xl px-4 text-center text-slate-50">
-            <h2 className="mb-3 text-2xl font-semibold tracking-tight">
-              Eerlijk prijsmodel. Start klein, schaal op wanneer jij wilt.
-            </h2>
-            <p className="mx-auto mb-6 max-w-2xl text-sm text-slate-300">
-              Betaal per actieve WhatsApp-nummer en teamlid. Geen verborgen
-              kosten, geen lange contracten.
-            </p>
-            <div className="inline-flex flex-col items-center gap-3 rounded-2xl bg-slate-800 px-6 py-4 text-sm sm:flex-row">
-              <span className="text-slate-200">
-                Vanaf <strong>€49 p/m</strong> voor groeiende teams.
-              </span>
-              <span className="hidden h-4 w-px bg-slate-700 sm:block" />
-              <span className="text-slate-400">
-                Inclusief 14 dagen gratis proefperiode.
-              </span>
-              <button className="mt-2 rounded-full bg-emerald-500 px-5 py-2 text-sm font-semibold text-white hover:bg-emerald-600 sm:mt-0">
-                Bekijk prijzen
-              </button>
-            </div>
-          </div>
-        </section>
+        {/* Pricing Section - homepage versie */}
+<section id="prijzen" className="mx-auto max-w-6xl px-4 py-20">
+  {/* Titel */}
+  <div className="mb-10 text-center">
+    <h2 className="mb-3 text-3xl font-bold tracking-tight text-slate-900">
+      Kies een pakket dat met je webshop meegroeit
+    </h2>
+    <p className="mx-auto max-w-2xl text-sm text-slate-600">
+      Alle pakketten zijn maandelijks opzegbaar. Betaal alleen voor wat je écht gebruikt.
+    </p>
+  </div>
+
+  {/* Pricing cards */}
+  <div className="grid gap-6 md:grid-cols-4">
+    {/* Starter */}
+    <div className="flex flex-col rounded-2xl bg-white p-6 text-sm text-slate-700 shadow-sm shadow-slate-200">
+      <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">
+        Starter
+      </p>
+      <p className="mb-4 text-2xl font-bold text-slate-900">
+        €19{" "}
+        <span className="text-xs font-normal text-slate-500">per maand</span>
+      </p>
+      <p className="mb-4 text-xs font-medium text-emerald-600">
+        Voor kleine webshops
+      </p>
+      <ul className="mb-6 space-y-1.5 text-sm">
+        <li>• Tot 200 berichten per maand</li>
+        <li>• Order updates</li>
+        <li>• Review requests</li>
+        <li>• Basisstatistieken</li>
+        <li>• E-mail support</li>
+      </ul>
+
+      {/* CTA */}
+      <button className="mt-auto rounded-full border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-800 hover:bg-slate-100">
+        Kies Starter
+      </button>
+    </div>
+
+    {/* Business – meest gekozen */}
+    <div className="relative flex flex-col rounded-2xl bg-slate-900 p-6 text-sm text-slate-100 shadow-lg shadow-slate-300 ring-2 ring-emerald-500">
+      <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-emerald-500 px-3 py-1 text-[11px] font-semibold text-white shadow-md">
+        Meest gekozen
+      </div>
+
+      <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-emerald-300">
+        Business
+      </p>
+      <p className="mb-4 text-2xl font-bold text-white">
+        €39{" "}
+        <span className="text-xs font-normal text-slate-300">per maand</span>
+      </p>
+      <p className="mb-4 text-xs font-medium text-emerald-200">
+        Ideaal voor groeiende webshops
+      </p>
+      <ul className="mb-6 space-y-1.5 text-sm">
+        <li>• Tot 600 berichten</li>
+        <li>• Automatische flows (ordervoorbereiding, verzending, levering)</li>
+        <li>• Review flows + follow-ups</li>
+        <li>• Dashboard met statistieken</li>
+        <li>• Snellere support</li>
+      </ul>
+
+      {/* CTA */}
+      <button className="mt-auto rounded-full bg-emerald-500 px-4 py-2 text-xs font-semibold text-white hover:bg-emerald-600">
+        Kies Business
+      </button>
+    </div>
+
+    {/* Pro */}
+    <div className="flex flex-col rounded-2xl bg-white p-6 text-sm text-slate-700 shadow-sm shadow-slate-200">
+      <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">
+        Pro
+      </p>
+      <p className="mb-4 text-2xl font-bold text-slate-900">
+        €79{" "}
+        <span className="text-xs font-normal text-slate-500">per maand</span>
+      </p>
+      <p className="mb-4 text-xs font-medium text-emerald-600">
+        Voor serieuze webshops
+      </p>
+      <ul className="mb-6 space-y-1.5 text-sm">
+        <li>• Tot 1500 berichten</li>
+        <li>• Geavanceerde automatiseringen</li>
+        <li>• A/B testing voor reviewberichten</li>
+        <li>• Prio support</li>
+        <li>• API-koppelingen</li>
+      </ul>
+
+      {/* CTA */}
+      <button className="mt-auto rounded-full border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-800 hover:bg-slate-100">
+        Kies Pro
+      </button>
+    </div>
+
+    {/* Enterprise */}
+    <div className="flex flex-col rounded-2xl bg-white p-6 text-sm text-slate-700 shadow-sm shadow-slate-200">
+      <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">
+        Enterprise
+      </p>
+      <p className="mb-1 text-2xl font-bold text-slate-900">
+        Vanaf €149{" "}
+        <span className="text-xs font-normal text-slate-500">per maand</span>
+      </p>
+      <p className="mb-4 text-xs font-medium text-emerald-600">
+        Voor grotere volumes & maatwerk
+      </p>
+      <ul className="mb-6 space-y-1.5 text-sm">
+        <li>• 3000–10.000+ berichten</li>
+        <li>• Volledig op maat</li>
+        <li>• Persoonlijke onboarding</li>
+        <li>• Integratie met CRM / WooCommerce / Magento</li>
+        <li>• SLA-afspraken</li>
+      </ul>
+
+      {/* CTA */}
+      <button className="mt-auto rounded-full border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-800 hover:bg-slate-100">
+        Plan Enterprise gesprek
+      </button>
+    </div>
+  </div>
+
+  {/* Disclaimer */}
+  <p className="mt-8 text-center text-xs text-slate-500">
+    Alle prijzen zijn excl. BTW. Meta-API kosten kunnen aanvullend zijn.
+  </p>
+</section>
+
 
         {/* Resources / footer */}
         <section
@@ -335,7 +394,9 @@ export default function Home() {
           </div>
 
           <footer className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-slate-200 pt-6 text-xs text-slate-400 md:flex-row">
-            <span>© {new Date().getFullYear()} Bugalou. Alle rechten voorbehouden.</span>
+            <span>
+              © {new Date().getFullYear()} Bugalou. Alle rechten voorbehouden.
+            </span>
             <div className="flex gap-4">
               <a href="#" className="hover:text-slate-600">
                 Privacy
@@ -350,14 +411,6 @@ export default function Home() {
           </footer>
         </section>
       </main>
-
-      {/* WhatsApp floating button (rechts onder) */}
-      <button
-        className="fixed bottom-4 right-4 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500 text-2xl shadow-lg shadow-emerald-300 hover:bg-emerald-600"
-        aria-label="Chat met sales via WhatsApp"
-      >
-        💬
-      </button>
     </div>
   );
 }
