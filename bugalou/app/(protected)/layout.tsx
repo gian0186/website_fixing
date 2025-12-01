@@ -1,3 +1,4 @@
+//bugalou/(protected)layout.tsx
 import Link from "next/link";
 import { requireAuth } from "@/lib/auth";
 import type { ReactNode } from "react";
@@ -24,7 +25,6 @@ export default async function AppLayout({
 }) {
   const session = await requireAuth();
   const userAny = session.user as any;
-  const userEmail = userAny?.email ?? "Onbekende gebruiker";
 
   // 🔐 Role ophalen
   const role = (userAny.role as string | undefined) ?? "AGENT";
@@ -83,29 +83,8 @@ export default async function AppLayout({
         </nav>
       </aside>
 
-      {/* Rechterkant: header + content */}
-      <div className="flex-1 flex flex-col">
-        {/* Donkere, cleane header */}
-        <header className="h-14 border-b border-slate-800 bg-slate-900 flex items-center justify-between px-6">
-          <p className="text-sm text-slate-400">
-            Ingelogd als{" "}
-            <span className="font-medium text-slate-200">{userEmail}</span>
-          </p>
-
-          {/* Uitloggen – via NextAuth route */}
-          <form action="/api/auth/signout" method="post">
-            <button
-              type="submit"
-              className="text-sm px-4 py-1.5 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-200 transition"
-            >
-              Uitloggen
-            </button>
-          </form>
-        </header>
-
-        {/* Page content */}
-        <main className="flex-1 p-8">{children}</main>
-      </div>
+      {/* Page content */}
+      <main className="flex-1 p-8">{children}</main>
     </div>
   );
 }
